@@ -114,8 +114,17 @@ public class BookShelfControllerIntegrationTest extends SpringBootWebApplication
     }
 
     @Test
-    public void should_find_category_of_the_book_when_given_book_isbn() {
-        
+    public void should_find_category_of_the_book_when_given_book_isbn() throws Exception {
+        CategoryEntity category = new CategoryEntity("C123456", "Category Name", "Category Description");
+        categoryRepository.save(category);
+        BookEntity book1 = new BookEntity("12345", "Hello1", "monkey1", 23.5);
+        book1.setCategoryCode(category.getCode());
+        bookRepository.save(book1);
+
+        mockMvc.perform(get(format("/books/%s", book1.getIsbn())))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.categoryCode").value(category.getCode()));
+               // .andExpect(jsonPath("$.title").value(book1.getTitle()));
 
     }
 }

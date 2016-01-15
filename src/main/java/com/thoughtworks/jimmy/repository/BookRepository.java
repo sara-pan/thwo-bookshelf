@@ -10,4 +10,7 @@ public interface BookRepository extends CrudRepository<BookEntity, String>{
     Iterable<BookEntity> findByTitleContaining(String title);
 
     Iterable<BookEntity> findByCategoryCode(String categoryCode);
+
+   /* @Query("select b from BookEntity b where b.isbn = isbn")
+    BookEntity findOne(String isbn);*/
 }
